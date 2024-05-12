@@ -1,6 +1,6 @@
 #!name=Coolapk
 #!desc=去广告
 [Script]
-酷安去广告 = type = http-response, pattern = ^https?:\/\/api.coolapk.com\/v6\/(feed\/(replyList|detail)|main\/indexV8|dataList), requires-body=1, max-size=0, script-path=https://codeberg.org/ddgksf2013/Cuttlefish/raw/branch/master/Script/coolapk.js,script-update-interval=0
+广告 = type = http-response, pattern = ^https?:\/\/api.coolapk.com\/v6\/(feed\/(replyList|detail)|main\/indexV8|dataList), requires-body=1, max-size=0, script-path=https://raw.githubusercontent.com/ddgksf2013/Scripts/master/coolapk.js, script-update-interval=0
 [MITM]
 hostname=%APPEND% api.coolapk.com
