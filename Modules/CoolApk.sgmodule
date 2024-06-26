@@ -1,6 +1,6 @@
 #!name=Coolapk Remove Ads
 #!desc=RemoveCoolapkAds
 [Script]
-RemoveCoolapkAds = type = http-response, pattern = ^https?:\/\/api.coolapk.com\/v6\/(feed\/(replyList|detail)|main\/(init|indexV8)|dataList), requires-body=1, max-size=0, script-path=https://raw.githubusercontent.com/fzwzs2333/Profiles/main/coolapk.js, script-update-interval=0
+RemoveCoolapkAds = type = http-response, pattern = ^https?:\/\/api.coolapk.com\/v6\/(feed\/(replyList|detail)|main\/(init|indexV8)|dataList), requires-body=1, max-size=0, script-path=https://raw.githubusercontent.com/vocrx/Surge/main/Scripts/coolapk.js, script-update-interval=0
 [MITM]
 hostname=%APPEND% api.coolapk.com
