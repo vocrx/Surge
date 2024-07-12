@@ -1,0 +1,6 @@
+services:
+  snelltest:
+    image: vocrx/snell-server:latest
+    container_name: snelltest
+    restart: always
+    network_mode: host
