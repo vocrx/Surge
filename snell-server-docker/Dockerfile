@@ -14,7 +14,7 @@ COPY entrypoint.sh /snell/
 # 设置权限
 RUN chmod +x /snell/entrypoint.sh
 
-# 更新系统
+# 更新
 RUN apt-get update && apt-get upgrade -y && \
     apt-get install -y wget unzip curl  && \
     rm -rf /var/lib/apt/lists/*
