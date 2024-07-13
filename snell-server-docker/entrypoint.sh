@@ -7,10 +7,9 @@ random_port() {
 random_psk() {
     cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 20 | head -n 1
 }
-#!/bin/bash
 
 get_public_ipv4() {
-    # 尝试多个公共 IP 查询服务
+
     IPV4=$(curl -s -4 https://api.ipify.org)
 
     if [ -z "$IPV4" ]; then
