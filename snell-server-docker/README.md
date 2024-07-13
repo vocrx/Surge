@@ -1,71 +1,33 @@
-# 如何使用
-1. ### 使用随机密码和随机端口一键部署。
-> 1. 这个方式部署会使用随机端口+随机密码，IPV6默认为false  
-> 2. 重启容器后端口和密码会重新生成！！！
-- 使用docker直接运行
+# 部署指南
+>使用前请确保你的docker已经正确运行，如果没有安装可使用这个两个命令安装：
+>```shell
+>apt update && apt upgrade -y && apt install curl -y
+>curl -fsSL 'get.docker.com' | bash
+>```
+>执行`docker -v`输出版本号就是安装好了。
 
-    `docker run -d --network host --name snell-server vocrx/snell-server:latest`
-
-    部署完成后用这个命令查看节点:
-
-    `docker logs snell-server`
-
-- 使用docker compose运行
-
-    创建一个你用来放docker compose文件的目录，进入到目录创建`docker-compose.yaml`文件,文件内容如下：
-    
-    ```yaml
-    services:
-      snell-server:
-        image: vocrx/snell-server:latest
-        container_name: snell-server
-        restart: always
-        network_mode: host
-    ```
-    创建好之后在文件所在目录下运行命令：
-
-    `docker compose up -d`
-
-    然后使用这个命令查看节点：
-
-    `docker compose logs`
-2. ### 固定密码或者端口
-> 适用于下面两种情况:  
-> 1. 想固定某个端口或者密码。
-> 2. 不想使用host模式。  
-- 使用docker直接运行
-
-    `docker run -d --name snell-server -p 8888:6666 -e PORT=6666 -e PSK=your_password -e IPV6=false vocrx/snell-server:latest`
-    > 1.更改`your_password`为你想设置的密码。  
-    > 2.此时应该使用8888端口，你可以更改`-p 8888:6666`左边的`8888`为你想要的端口，右边的`6666`需要与后面的`-e PORT=6666`的端口相同。  
-    > 3.将`-p 8888:6666`替换为`--network host`，则端口与后面的`-e PORT=6666`一致。  
-    > 4.如果想固定端口，密码随机，删除`-e PSK=your_password`即可。  
-    > 5.如果想固定密码，端口随机，参考第三点，并删除`-e PORT=6666`即可。  
-    > 6.开启IPV6需要你的VPS有V6地址并且docker需要额外配置，如果不开启V6可直接删除`-e IPV6=false`。
-
-- 使用docker compose运行
-
-    创建一个你用来放docker compose文件的目录，进入到目录创建`docker-compose.yaml`文件,文件内容如下：
-    
-    ```yaml
-    services:
-      snell-server:
-        image: vocrx/snell-server:latest
-        container_name: snell-server
-        restart: always
-        ports:
-          - "8888:6666"
-        environment:
-          - PORT=6666
-          - PSK=your_password
-          - IPV6=false
-    ```
-
-    > 1.如果需要随机密码删除`environment`中的`- PSK=your_password`即可。  
-    > 2.如果需要随机端口，将
-    >```yaml
-    >ports:
-    >  - "8888:6666"
-    >```
-    >改为`network_mode: host`并删掉`environment`中的`- PORT=6666`即可。  
-    > 3.开启IPV6需要你的VPS有V6地址并且docker需要额外配置，如果不开启V6可直接删除`- IPV6=false`。
+### 1. 支持的environment：  
+  - PORT=自定义使用的端口，仅`host`模式下生效，不写则随机。
+  - PSK=节点密码，不写则随机。
+  - IPV6=true/false，不写默认为false。
+### 2. 使用docker方式：
+```shell
+docker run -d --name snell-server --network host -e PORT=1111 -e PSK=your_password -e IVP6=false/true vocrx/snell-server:latest
+```
+### 3. 使用docker compose方式：
+```yaml
+services:
+  snell-server:
+    image: vocrx/snell-server:latest
+    container_name: snell-server
+    restart: always
+    network_mode: host
+    environment:
+      - PORT=1111
+      - PSK=your_password
+      - IPV6=false/true
+```
+### 4. 其他
+- 使用随机密码或者端口可以使用`docker logs snell-server`查看配置信息。
+- Docker使用IPV6需要额外配置，详情GPT
+- 想好再写，反正也没人看。
