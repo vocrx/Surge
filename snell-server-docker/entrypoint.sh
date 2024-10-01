@@ -4,47 +4,47 @@ set -e
 random_port() {
     shuf -i 1024-65535 -n 1
 }
+
 random_psk() {
     cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 20 | head -n 1
-}
-
-get_public_ipv4() {
-
-    IPV4=$(curl -s -4 https://api.ipify.org)
-
-    if [ -z "$IPV4" ]; then
-        IPV4=$(curl -s -4 https://ifconfig.me)
-    fi
-
-    if [ -z "$IPV4" ]; then
-        IPV4=$(curl -s -4 https://icanhazip.com)
-    fi
-
-    if [ -z "$IPV4" ]; then
-        echo "无法获取公网 IPv4 地址"
-        exit 1
-    fi
 }
 
 generate_config() {
     PORT=${PORT:-$(random_port)}
     PSK=${PSK:-$(random_psk)}
     IPV6=${IPV6:-false}
+    DNS=${DNS}
 
     cat >/snell/snell.conf <<EOF
 [snell-server]
-listen=0.0.0.0:$PORT
+listen=:::$PORT
 psk=$PSK
 ipv6=$IPV6
 EOF
+    if [ -n "$DNS" ]; then
+        echo "dns=$DNS" >>/snell/snell.conf
+    fi
 }
-print_proxy() {
-    echo "Proxy = snell, $IPV4, $PORT, psk=$PSK, version=4, tfo=false"
 
+download_snell() {
+    VERSION=${VERSION:-v4.1.1}
+    case "${TARGETPLATFORM}" in
+    "linux/amd64") SNELL_URL="https://dl.nssurge.com/snell/snell-server-${VERSION}-linux-amd64.zip" ;;
+    "linux/386") SNELL_URL="https://dl.nssurge.com/snell/snell-server-${VERSION}-linux-i386.zip" ;;
+    "linux/arm64") SNELL_URL="https://dl.nssurge.com/snell/snell-server-${VERSION}-linux-aarch64.zip" ;;
+    "linux/arm/v7") SNELL_URL="https://dl.nssurge.com/snell/snell-server-${VERSION}-linux-armv7l.zip" ;;
+    *) echo "不支持的平台: ${TARGETPLATFORM}" && exit 1 ;;
+    esac
+
+    wget -q -O snell.zip ${SNELL_URL} &&
+        unzip -qo snell.zip -d /snell &&
+        rm snell.zip &&
+        chmod +x /snell/snell-server
 }
+
+download_snell
 generate_config
-get_public_ipv4
-print_proxy
-
-exec /snell/snell-server -c /snell/snell.conf
-
+echo "PORT:$PORT"
+echo "PSK:$PSK"
+echo "VERSION:$VERSION"
+exec /snell/snell-server -c /snell/snell.conf -l ${LOG:-notify}
