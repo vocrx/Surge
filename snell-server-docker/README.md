@@ -10,6 +10,8 @@
   - PORT=自定义使用的端口，仅`host`模式下生效，不写则随机。
   - PSK=节点密码，不写则随机。
   - IPV6=true/false，不写默认为false。
+  - DNS=8.8.8.8,1.1.1.1，不写为系统默认
+  - VERSION=v4.1.1，自定义二进制文件版本，不写则默认最新版
 ### 2. 使用docker方式：
 ```shell
 docker run -d --name snell-server --network host -e PORT=1111 -e PSK=your_password -e IVP6=false/true vocrx/snell-server:latest
