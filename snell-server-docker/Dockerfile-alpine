@@ -1,0 +1,32 @@
+# syntax=docker/dockerfile:1
+
+FROM alpine
+
+ARG TARGETPLATFORM
+ENV TARGETPLATFORM=${TARGETPLATFORM:-linux/amd64}
+
+WORKDIR /root/snell
+
+COPY entrypoint.sh /root/snell/
+
+RUN apk add --no-cache wget unzip tini gcompat libstdc++ && \
+    case "$TARGETPLATFORM" in \
+    "linux/amd64") \
+    GLIBC_URL="https://repo.tlle.eu.org/alpine/v3.20/main/x86_64/glibc-2.36-r1.apk"; \
+    GLIBC_BIN_URL="https://repo.tlle.eu.org/alpine/v3.20/main/x86_64/glibc-bin-2.36-r1.apk"; \
+    ;; \
+    "linux/arm64") \
+    GLIBC_URL="https://repo.tlle.eu.org/alpine/v3.20/main/aarch64/glibc-2.35-r1.apk"; \
+    GLIBC_BIN_URL="https://repo.tlle.eu.org/alpine/v3.20/main/aarch64/glibc-bin-2.35-r1.apk"; \
+    ;; \
+    *) \
+    echo "不支持的平台: $TARGETPLATFORM" && exit 1; \
+    ;; \
+    esac && \
+    wget -q -O glibc.apk "$GLIBC_URL" && \
+    wget -q -O glibc-bin.apk "$GLIBC_BIN_URL" && \
+    apk add --no-cache --allow-untrusted --force-overwrite glibc.apk glibc-bin.apk && \
+    rm -f *.apk && \
+    chmod +x /root/snell/entrypoint.sh
+
+ENTRYPOINT ["/sbin/tini", "--", "/root/snell/entrypoint.sh"]
