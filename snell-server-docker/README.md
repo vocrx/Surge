@@ -12,6 +12,8 @@
   - IPV6=true/false，不写默认为false。
   - DNS=8.8.8.8,1.1.1.1，不写为系统默认
   - VERSION=v4.1.1，自定义二进制文件版本，不写则默认最新版
+  - OBFS=http,默认为空,写此条必须配置HOST
+  - HOST=icloud.com,默认为空
 ### 2. 使用docker方式：
 ```shell
 docker run -d --name snell-server --network host -e PORT=1111 -e PSK=your_password -e IVP6=false/true vocrx/snell-server:latest
@@ -31,5 +33,5 @@ services:
 ```
 ### 4. 其他
 - 使用随机密码或者端口可以使用`docker logs snell-server`查看配置信息。
-- Docker使用IPV6需要额外配置，详情GPT
+- Docker非HOST模式下使用IPV6需要额外配置，详情GPT
 - 想好再写，反正也没人看。
