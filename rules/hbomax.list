@@ -64,7 +64,7 @@ DOMAIN-SUFFIX,brightline.tv
 DOMAIN-SUFFIX,litix.io
 DOMAIN-SUFFIX,branch.io
 DOMAIN-SUFFIX,braze.com
-DOMAIN-SUFFIX,akm.prd.media.h264.io
+DOMAIN-SUFFIX,prd.media.h264.io
 USER-AGENT,HBO%20NOW*
 USER-AGENT,HBOMAX*
 PROCESS-NAME,com.hbo.hbonow
