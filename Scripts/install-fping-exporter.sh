@@ -44,7 +44,7 @@ apt install -y fping >/dev/null 2>&1
 rm -rf /root/fping-exporter
 mkdir -p /root/fping-exporter
 
-wget -q https://github.com/midori01/fping-exporter/releases/download/v1.0.1/fping-exporter-linux-amd64 -O /root/fping-exporter/fping-exporter-linux-amd64
+wget -q https://github.com/midori01/fping-exporter/releases/download/v1.0.2/fping-exporter-linux-amd64 -O /root/fping-exporter/fping-exporter-linux-amd64
 
 chmod +x /root/fping-exporter/fping-exporter-linux-amd64
 
