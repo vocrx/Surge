@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# 检查是否以root权限运行
 if [ "$EUID" -ne 0 ]; then
     echo "Error: Please run with root privileges"
     exit 1
@@ -19,7 +18,7 @@ fi
 
 # Check and install required packages
 echo "Checking dependencies..."
-required_packages=(wget tar openssl curl net-tools)
+required_packages=(wget tar openssl curl net-tools xz-utils)
 missing_packages=()
 
 for package in "${required_packages[@]}"; do
@@ -36,12 +35,10 @@ else
     echo "All dependencies are already installed"
 fi
 
-# 强制删除并重新创建目录
 rm -rf /opt/ss-rust
 mkdir -p /opt/ss-rust
 cd /opt/ss-rust
 
-# 检测系统架构
 arch=$(uname -m)
 case $arch in
 x86_64)
@@ -56,7 +53,6 @@ aarch64)
     ;;
 esac
 
-# 下载对应架构的包
 wget -q "https://github.com/shadowsocks/shadowsocks-rust/releases/download/v1.21.2/$package"
 tar -xf "$package"
 rm -f "$package" sslocal ssmanager ssservice ssurl
@@ -90,7 +86,6 @@ done
 
 password=$(openssl rand -base64 16)
 
-# 使用 >| 强制覆盖配置文件
 cat >|config.json <<EOF
 {
     "server": "::",
