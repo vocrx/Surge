@@ -95,6 +95,8 @@ rm -f "$package"
 port=""
 password=""
 dns=""
+ipv6_enabled="true"
+
 while [ "$#" -gt 0 ]; do
     case "$1" in
     -p)
@@ -119,8 +121,17 @@ while [ "$#" -gt 0 ]; do
         shift
         dns="$1"
         ;;
+    -v6)
+        shift
+        if [ "$1" = "true" ] || [ "$1" = "false" ]; then
+            ipv6_enabled="$1"
+        else
+            echo "Error: IPv6 value must be true or false"
+            exit 1
+        fi
+        ;;
     *)
-        echo "Usage: $0 [-p port] [-psk password] [-dns dnsserver] [uninstall]"
+        echo "Usage: $0 [-p port] [-psk password] [-dns dnsserver] [-v6 true/false] [uninstall]"
         exit 1
         ;;
     esac
@@ -144,7 +155,7 @@ cat >|snell-server.conf <<EOF
 [snell-server]
 listen = :::$port
 psk = $password
-ipv6 = true
+ipv6 = $ipv6_enabled
 EOF
 
 if [ ! -z "$dns" ]; then
