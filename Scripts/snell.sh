@@ -94,7 +94,7 @@ rm -f "$package"
 
 port=""
 password=""
-
+dns=""
 while [ "$#" -gt 0 ]; do
     case "$1" in
     -p)
@@ -115,8 +115,12 @@ while [ "$#" -gt 0 ]; do
         shift
         password="$1"
         ;;
+    -dns)
+        shift
+        dns="$1"
+        ;;
     *)
-        echo "Usage: $0 [-p port] [-psk password] [uninstall]"
+        echo "Usage: $0 [-p port] [-psk password] [-dns dnsserver] [uninstall]"
         exit 1
         ;;
     esac
@@ -143,6 +147,10 @@ psk = $password
 ipv6 = true
 EOF
 
+if [ ! -z "$dns" ]; then
+    echo "dns = $dns" >> snell-server.conf
+fi
+
 cat >|/etc/systemd/system/snell.service <<EOF
 [Unit]
 Description=Snell Server
@@ -163,5 +171,5 @@ systemctl enable snell
 systemctl restart snell
 
 server_ip=$(curl -s http://ipv4.icanhazip.com)
-echo -e "\nNode information (Surge format):"
+echo -e "Node information (Surge format):"
 echo "$(hostname) = snell, $server_ip, $port, psk=$password, version=4"
