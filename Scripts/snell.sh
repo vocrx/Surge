@@ -1,24 +1,74 @@
 #!/bin/bash
 
+VERSION="4.1.1"
+
 if [ "$EUID" -ne 0 ]; then
     echo "Error: Please run with root privileges"
     exit 1
 fi
 
-if [ "$#" -eq 1 ] && [ "$1" = "uninstall" ]; then
-    if [ ! -d "/opt/snell" ] || [ ! -f "/etc/systemd/system/snell.service" ]; then
-        echo "Snell Server is not installed."
-        exit 0
+update() {
+    if [ ! -d "/opt/snell" ]; then
+        echo "Error: Snell Server is not installed"
+        exit 1
     fi
-    echo "Uninstalling Snell server ..."
-    systemctl stop snell
-    systemctl disable snell
-    rm -f /etc/systemd/system/snell.service
-    systemctl daemon-reload
-    rm -rf /opt/snell
-    echo "Snell Server has been uninstalled."
+
+    echo "Updating Snell Server to version $VERSION..."
+    cd /opt/snell
+
+    arch=$(uname -m)
+    case $arch in
+    x86_64)
+        package="snell-server-v$VERSION-linux-amd64.zip"
+        ;;
+    aarch64)
+        package="snell-server-v$VERSION-linux-aarch64.zip"
+        ;;
+    *)
+        echo "Unsupported system architecture: $arch"
+        exit 1
+        ;;
+    esac
+
+    rm -f snell-server
+    wget -q "https://dl.nssurge.com/snell/$package"
+    unzip -q "$package"
+    rm -f "$package"
+
+    systemctl restart snell
+    echo "Update completed. Service restarted."
     exit 0
+}
+
+uninstall() {
+    if [ -d "/opt/snell" ] || [ -f "/etc/systemd/system/snell.service" ]; then
+        echo "Removing existing Snell Server installation..."
+        systemctl stop snell 2>/dev/null
+        systemctl disable snell 2>/dev/null
+        rm -f /etc/systemd/system/snell.service
+        systemctl daemon-reload
+        rm -rf /opt/snell
+    fi
+}
+
+if [ "$#" -eq 1 ]; then
+    case "$1" in
+    "uninstall")
+        uninstall
+        echo "Snell Server has been uninstalled."
+        exit 0
+        ;;
+    "update")
+        update
+        ;;
+    *)
+        echo "Usage: $0 [-p port] [-psk password] [-dns dnsserver] [-v6 true/false] [update|uninstall]"
+        exit 1
+        ;;
+    esac
 fi
+
+uninstall
 
 echo "Checking package manager and dependencies..."
 if command -v apt >/dev/null 2>&1; then
@@ -131,7 +181,7 @@ while [ "$#" -gt 0 ]; do
         fi
         ;;
     *)
-        echo "Usage: $0 [-p port] [-psk password] [-dns dnsserver] [-v6 true/false] [uninstall]"
+        echo "Usage: $0 [-p port] [-psk password] [-dns dnsserver] [-v6 true/false] [update|uninstall]"
         exit 1
         ;;
     esac
@@ -159,7 +209,7 @@ ipv6 = $ipv6_enabled
 EOF
 
 if [ ! -z "$dns" ]; then
-    echo "dns = $dns" >> snell-server.conf
+    echo "dns = $dns" >>snell-server.conf
 fi
 
 cat >|/etc/systemd/system/snell.service <<EOF
