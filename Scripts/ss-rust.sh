@@ -238,7 +238,7 @@ while [ "$#" -gt 0 ]; do
             exit 1
         fi
         ;;
-    -psk)
+    -passwd)
         shift
         password="$1"
         ;;
