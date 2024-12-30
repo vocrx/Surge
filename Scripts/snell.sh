@@ -5,31 +5,67 @@ if [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
-if [ "$1" = "uninstall" ]; then
+if [ "$#" -eq 1 ] && [ "$1" = "uninstall" ]; then
+    if [ ! -d "/opt/snell" ] || [ ! -f "/etc/systemd/system/snell.service" ]; then
+        echo "Snell Server is not installed."
+        exit 0
+    fi
     echo "Uninstalling Snell server ..."
     systemctl stop snell
     systemctl disable snell
     rm -f /etc/systemd/system/snell.service
     systemctl daemon-reload
     rm -rf /opt/snell
-    echo "Snell has been uninstalled."
+    echo "Snell Server has been uninstalled."
     exit 0
 fi
 
-echo "Checking dependencies..."
-required_packages=(wget unzip openssl curl net-tools)
-missing_packages=()
+echo "Checking package manager and dependencies..."
+if command -v apt >/dev/null 2>&1; then
+    PKG_MANAGER="apt"
+    check_package() {
+        dpkg -l "$1" 2>/dev/null | grep -q "^ii"
+    }
+    install_packages() {
+        apt update >/dev/null 2>&1
+        apt install -y "$@" >/dev/null 2>&1
+    }
+elif command -v dnf >/dev/null 2>&1; then
+    PKG_MANAGER="dnf"
+    check_package() {
+        rpm -q "$1" >/dev/null 2>&1
+    }
+    install_packages() {
+        dnf install -y "$@" >/dev/null 2>&1
+    }
+elif command -v yum >/dev/null 2>&1; then
+    PKG_MANAGER="yum"
+    check_package() {
+        rpm -q "$1" >/dev/null 2>&1
+    }
+    install_packages() {
+        yum install -y "$@" >/dev/null 2>&1
+    }
+else
+    echo "Error: No supported package manager found (apt/dnf/yum)"
+    exit 1
+fi
 
+required_packages=(wget unzip openssl curl net-tools)
+
+missing_packages=()
 for package in "${required_packages[@]}"; do
-    if ! dpkg -s "$package" >/dev/null 2>&1; then
+    if ! check_package "$package"; then
         missing_packages+=("$package")
     fi
 done
 
 if [ ${#missing_packages[@]} -ne 0 ]; then
     echo "Installing required packages: ${missing_packages[*]}"
-    apt update >/dev/null 2>&1
-    apt install -y "${missing_packages[@]}" >/dev/null 2>&1
+    if ! install_packages "${missing_packages[@]}"; then
+        echo "Error: Failed to install required packages"
+        exit 1
+    fi
 else
     echo "All dependencies are already installed"
 fi
@@ -56,33 +92,49 @@ wget -q "https://dl.nssurge.com/snell/$package"
 unzip -q "$package"
 rm -f "$package"
 
-while true; do
-    read -p "Please enter port number (1-65535, press Enter for random port): " port
+port=""
+password=""
 
-    if [ -z "$port" ]; then
-        while true; do
-            port=$(shuf -i 1000-65535 -n 1)
-            if ! netstat -tuln | grep -q ":$port "; then
-                echo "Using random port: $port"
-                break
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+    -p)
+        shift
+        if [[ "$1" =~ ^[0-9]+$ ]] && [ "$1" -ge 1 ] && [ "$1" -le 65535 ]; then
+            if ! netstat -tuln | grep -q ":$1 "; then
+                port="$1"
+            else
+                echo "Error: Port $1 is already in use"
+                exit 1
             fi
-        done
-        break
-    else
-        if ! [[ "$port" =~ ^[0-9]+$ ]] || [ "$port" -lt 1 ] || [ "$port" -gt 65535 ]; then
-            echo "Error: Please enter a valid port number between 1-65535"
-            continue
+        else
+            echo "Error: Invalid port number"
+            exit 1
         fi
-
-        if netstat -tuln | grep -q ":$port "; then
-            echo "Error: Port $port is already in use, please try another"
-            continue
-        fi
-        break
-    fi
+        ;;
+    -psk)
+        shift
+        password="$1"
+        ;;
+    *)
+        echo "Usage: $0 [-p port] [-psk password] [uninstall]"
+        exit 1
+        ;;
+    esac
+    shift
 done
 
-password=$(openssl rand -base64 12)
+if [ -z "$port" ]; then
+    while true; do
+        port=$(shuf -i 1000-65535 -n 1)
+        if ! netstat -tuln | grep -q ":$port "; then
+            break
+        fi
+    done
+fi
+
+if [ -z "$password" ]; then
+    password=$(openssl rand -base64 12)
+fi
 
 cat >|snell-server.conf <<EOF
 [snell-server]
@@ -112,4 +164,4 @@ systemctl restart snell
 
 server_ip=$(curl -s http://ipv4.icanhazip.com)
 echo -e "\nNode information (Surge format):"
-echo "Proxy = snell, $server_ip, $port, psk=$password, version=4"
+echo "$(hostname) = snell, $server_ip, $port, psk=$password, version=4"
