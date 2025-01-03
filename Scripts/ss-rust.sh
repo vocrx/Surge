@@ -158,8 +158,8 @@ else
     exit 1
 fi
 
-if [ "$PKG_MANAGER" = "apk" ]; then
-    required_packages=(wget tar openssl curl net-tools xz bash)
+if [ "$PKG_MANAGER" = "apk" ] || [ "$PKG_MANAGER" = "yum" ] || [ "$PKG_MANAGER" = "dnf" ]; then
+    required_packages=(wget tar openssl curl net-tools xz)
 else
     required_packages=(wget tar openssl curl net-tools xz-utils)
 fi
