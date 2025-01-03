@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.21.2"
+VERSION="1.22.0"
 
 get_service_manager() {
     if command -v systemctl >/dev/null 2>&1; then
