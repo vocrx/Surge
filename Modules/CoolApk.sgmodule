@@ -1,6 +1,8 @@
-#!name=Coolapk Remove Ads
-#!desc=RemoveCoolapkAds
+#!name=酷安去广告
+#!desc=去除酷安开屏、推广、首页、评论区、热词、推广页广告。
+[Rule]
+URL-REGEX,"^https?:\/\/api\.coolapk\.com\/v6\/search\?.*type=hotSearch",REJECT
 [Script]
-RemoveCoolapkAds = type = http-response, pattern = ^https?:\/\/api.coolapk.com\/v6\/(feed\/(replyList|detail)|main\/(init|indexV8)|dataList), requires-body=1, max-size=0, script-path=https://raw.githubusercontent.com/vocrx/Surge/main/Scripts/coolapk.js, script-update-interval=0
+RemoveCoolapkAds = type = http-response, pattern = ^https?:\/\/api\.coolapk\.com\/v6\/(main\/(init|indexV8)|dataList|feed\/(replyList|detail)|page\/dataList\?.*title=%E9%85), requires-body=1, max-size=0, script-path=https://raw.githubusercontent.com/vocrx/Surge/main/Scripts/coolapk.js, script-update-interval=0
 [MITM]
-hostname=%APPEND% api.coolapk.com
+hostname = %APPEND% api.coolapk.com
