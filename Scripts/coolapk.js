@@ -1,4 +1,4 @@
-const version = 'V1.0.10';
+const version = 'V1.0.11';
 
 if (-1 != $request.url.indexOf('replyList')) {
 	var t = JSON.parse($response.body);
@@ -28,7 +28,9 @@ if (-1 != $request.url.indexOf('replyList')) {
 	var t = JSON.parse($response.body);
 	(t.data = t.data.filter(
 		(t) =>
-			!('sponsorCard' == t.entityTemplate || -1 != t.title.indexOf('精选配件'))
+			!['sponsorCard', 'iconButtonGridCard', 'iconLargeScrollCard'].includes(
+				t.entityTemplate
+			) && !/流量|精选配件/.test(t.title)
 	)),
 		$done({ body: JSON.stringify(t) });
 } else if (-1 != $request.url.indexOf('detail')) {
@@ -41,4 +43,4 @@ if (-1 != $request.url.indexOf('replyList')) {
 		t.data?.include_goods && (t.data.include_goods = []),
 		t.data?.detailSponsorCard && (t.data.detailSponsorCard = []),
 		$done({ body: JSON.stringify(t) });
-} else $done($response);
+} else $done({});
