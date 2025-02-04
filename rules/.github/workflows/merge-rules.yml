@@ -1,0 +1,44 @@
+name: Merge Rules
+
+on:
+  schedule:
+    - cron: '0 */12 * * *'
+  workflow_dispatch:
+
+jobs:
+  merge-rules:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Create rules directory
+        run: mkdir -p rules
+
+      - name: Download source files
+        run: |
+          curl -o rules/Netflix.list https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Netflix/Netflix.list
+          curl -o rules/Disney.list https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Disney/Disney.list
+
+      - name: Merge Rules
+        run: python scripts/merge_rules.py -i "rules/*.list" -o "merged_rules.list"
+
+      - name: Upload merged rules
+        uses: actions/upload-artifact@v4
+        with:
+          name: merged-rules
+          path: merged_rules.list
+
+      - name: Commit merged rules
+        if: success()
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add merged_rules.list
+          git commit -m "自动更新合并规则文件" || exit 0
+          git push
