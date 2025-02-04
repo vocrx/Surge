@@ -2,7 +2,7 @@ name: Merge Rules
 
 on:
   schedule:
-    - cron: '0 */12 * * *'
+    - cron: '0 16 * * *'
   workflow_dispatch:
 
 jobs:
@@ -11,6 +11,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -43,4 +45,4 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add rules/Streaming.list
           git commit -m "Github Actions Auto Update Rules" || exit 0
-          git push
+          git push origin main
