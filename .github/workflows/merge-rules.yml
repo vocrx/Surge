@@ -40,8 +40,8 @@ jobs:
       - name: Merge US Rules
         run: python Scripts/merge-rules.py -i "rules/AI.list,rules/PayPal.list" -o "rules/US.list"
 
-      - name: Merge China IP Rules
-        run: python Scripts/merge-rules.py -i "ChinaDomain.list,rules/ChinaIPV4.conf,rules/ChinaIPV6.conf" -o "rules/China.list"
+      - name: Merge China Rules
+        run: python Scripts/merge-rules.py -i "rules/ChinaDomain.list,rules/ChinaIPV4.conf,rules/ChinaIPV6.conf" -o "rules/China.list"
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
