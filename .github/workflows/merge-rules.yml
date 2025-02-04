@@ -28,8 +28,14 @@ jobs:
           curl -o rules/Disney.list https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Disney/Disney.list
           curl -o rules/MAX.list https://raw.githubusercontent.com/vocrx/Surge/main/rules/hbomax.list
 
+          curl -o rules/AI.list https://raw.githubusercontent.com/vocrx/Surge/main/rules/AI.list
+          curl -o rules/PayPal.list https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/PayPal/PayPal.list
+          
       - name: Merge Streaming Rules
         run: python Scripts/merge-rules.py -i "rules/Netflix.list,rules/Disney.list,rules/MAX.list" -o "rules/Streaming.list"
+
+      - name: Merge US Rules
+        run: python Scripts/merge-rules.py -i "rules/AI.list,rules/PayPal.list" -o "rules/US.list"
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -37,12 +43,13 @@ jobs:
           name: merged-rules
           path: |
             rules/Streaming.list
+            rules/US.list
 
       - name: Commit merged rules
         if: success()
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add rules/Streaming.list
+          git add rules/Streaming.list rules/US.list
           git commit -m "Github Actions Auto Update Rules" || exit 0
           git push origin main
