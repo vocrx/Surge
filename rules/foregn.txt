@@ -876,4 +876,5 @@ DOMAIN-SUFFIX,zgovps.com
 DOMAIN-SUFFIX,zi-scripts.com
 DOMAIN-SUFFIX,zoominfo.com
 DOMAIN-SUFFIX,zve.me
+DOMAIN,stability.ai
 IP-CIDR,8.8.8.8/32
