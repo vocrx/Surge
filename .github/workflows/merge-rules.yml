@@ -24,18 +24,23 @@ jobs:
 
       - name: Download source files
         run: |
-          curl -o rules/Netflix.list https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Netflix/Netflix.list
-          curl -o rules/Disney.list https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Disney/Disney.list
-          curl -o rules/MAX.list https://raw.githubusercontent.com/vocrx/Surge/main/rules/hbomax.list
+          curl -o rules/Netflix.list -s https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Netflix/Netflix.list
+          curl -o rules/Disney.list -s https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Disney/Disney.list
+          curl -o rules/MAX.list -s https://raw.githubusercontent.com/vocrx/Surge/main/rules/hbomax.list
 
-          curl -o rules/AI.list https://raw.githubusercontent.com/vocrx/Surge/main/rules/AI.list
-          curl -o rules/PayPal.list https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/PayPal/PayPal.list
-          
+          curl -o rules/AI.list -s https://raw.githubusercontent.com/vocrx/Surge/main/rules/AI.list
+          curl -o rules/PayPal.list -s https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/PayPal/PayPal.list
+
+          curl -o rules/ChinaIPV4.conf -s https://ruleset.skk.moe/List/ip/china_ip.conf
+          curl -o rules/ChinaIPV6.conf -s https://ruleset.skk.moe/List/ip/china_ip_ipv6.conf
       - name: Merge Streaming Rules
         run: python Scripts/merge-rules.py -i "rules/Netflix.list,rules/Disney.list,rules/MAX.list" -o "rules/Streaming.list"
 
       - name: Merge US Rules
         run: python Scripts/merge-rules.py -i "rules/AI.list,rules/PayPal.list" -o "rules/US.list"
+
+      - name: Merge China IP Rules
+        run: python Scripts/merge-rules.py -i "rules/ChinaIPV4.conf,rules/ChinaIPV6.conf" -o "rules/ChinaIP.list"
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -50,6 +55,6 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add rules/Streaming.list rules/US.list
+          git add rules/Streaming.list rules/US.list rules/ChinaIP.list
           git commit -m "Github Actions Auto Update Rules" || exit 0
           git push origin main
