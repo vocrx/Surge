@@ -27,7 +27,7 @@ jobs:
           curl -o rules/MAX.list https://raw.githubusercontent.com/vocrx/Surge/main/rules/hbomax.list
 
       - name: Merge Streaming Rules
-        run: python Scripts/merge-rules.py -i "rules/{Netflix,Disney,MAX}.list" -o "rules/Streaming.list"
+        run: python Scripts/merge-rules.py -i "rules/Netflix.list,rules/Disney.list,rules/MAX.list" -o "rules/Streaming.list"
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
