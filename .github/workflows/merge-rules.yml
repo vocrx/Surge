@@ -26,19 +26,19 @@ jobs:
           curl -o rules/Disney.list https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Disney/Disney.list
 
       - name: Merge Rules
-        run: python Scripts/merge-rules.py -i "rules/*.list" -o "merged_rules.list"
+        run: python Scripts/merge_rules.py -i "rules/*.list" -o "rules/merged_rules.list"
 
       - name: Upload merged rules
         uses: actions/upload-artifact@v4
         with:
           name: merged-rules
-          path: merged_rules.list
+          path: rules/merged_rules.list
 
       - name: Commit merged rules
         if: success()
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add merged_rules.list
+          git add rules/merged_rules.list
           git commit -m "自动更新合并规则文件" || exit 0
           git push
