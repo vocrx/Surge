@@ -25,7 +25,6 @@ DOMAIN,cdn-fusion.imgcdn.store
 DOMAIN,cdn-ima.33across.com
 DOMAIN,cdn-us.imgs.moe
 DOMAIN,cdn.bizible.com
-DOMAIN,cdn.chinaliftoff-creatives.io
 DOMAIN,cdn.confiant-integrations.net
 DOMAIN,cdn.contentful.com
 DOMAIN,cdn.datatables.net
@@ -51,7 +50,6 @@ DOMAIN,ecostack.cloud
 DOMAIN,enservsolutions.com
 DOMAIN,example.com
 DOMAIN,fars.ee
-DOMAIN,fastly.cdn.steampipe.steamcontent.com
 DOMAIN,fbsbx.com
 DOMAIN,fonts.cdnfonts.com
 DOMAIN,fpnpmcdn.net
@@ -70,6 +68,7 @@ DOMAIN,id5-sync.com
 DOMAIN,idc333.top
 DOMAIN,iili.io
 DOMAIN,img.pub
+DOMAIN,itunes.com
 DOMAIN,jeza-chen.com
 DOMAIN,jike.info
 DOMAIN,js.intercomcdn.com
@@ -96,6 +95,7 @@ DOMAIN,plausible.io
 DOMAIN,prreqcroab.icu
 DOMAIN,res.cloudinary.com
 DOMAIN,rsms.me
+DOMAIN,s.team
 DOMAIN,sg.cloudhost.asia
 DOMAIN,skxqhd.xyz
 DOMAIN,snap.licdn.com
@@ -130,6 +130,7 @@ DOMAIN,yxvm.com
 DOMAIN,yztcloud.moe
 DOMAIN-KEYWORD,google
 DOMAIN-KEYWORD,speedtest
+DOMAIN-KEYWORD,steam
 DOMAIN-SUFFIX,002397.xyz
 DOMAIN-SUFFIX,1015622.xyz
 DOMAIN-SUFFIX,101kan.com
@@ -184,6 +185,7 @@ DOMAIN-SUFFIX,alpinedc.ch
 DOMAIN-SUFFIX,amazon-adsystem.com
 DOMAIN-SUFFIX,amazon.com
 DOMAIN-SUFFIX,amazonaws.com
+DOMAIN-SUFFIX,amazontrust.com
 DOMAIN-SUFFIX,ampaeservices.com
 DOMAIN-SUFFIX,amplitude.com
 DOMAIN-SUFFIX,amplitudeexperiment.com
@@ -250,7 +252,6 @@ DOMAIN-SUFFIX,casalemedia.com
 DOMAIN-SUFFIX,cbn.id
 DOMAIN-SUFFIX,cdn-apple.com
 DOMAIN-SUFFIX,cdn-telegram.org
-DOMAIN-SUFFIX,cdn.forter.com
 DOMAIN-SUFFIX,cdn2020.com
 DOMAIN-SUFFIX,cdninstagram.com
 DOMAIN-SUFFIX,celcom.net.my
@@ -274,12 +275,10 @@ DOMAIN-SUFFIX,cloudfront.net
 DOMAIN-SUFFIX,clouvider.net
 DOMAIN-SUFFIX,cnmmb.com
 DOMAIN-SUFFIX,cnouyi.pizza
-DOMAIN-SUFFIX,co.th
 DOMAIN-SUFFIX,coalcloud.net
 DOMAIN-SUFFIX,coe.ad.jp
 DOMAIN-SUFFIX,colocrossing.com
 DOMAIN-SUFFIX,coloradointerlink.net
-DOMAIN-SUFFIX,com.sg
 DOMAIN-SUFFIX,comnet.com.tr
 DOMAIN-SUFFIX,company-target.com
 DOMAIN-SUFFIX,contabo.net
@@ -336,6 +335,7 @@ DOMAIN-SUFFIX,epic.network
 DOMAIN-SUFFIX,epicgames.com
 DOMAIN-SUFFIX,erpweb.eu.org
 DOMAIN-SUFFIX,eseven.net
+DOMAIN-SUFFIX,esim.gg
 DOMAIN-SUFFIX,estk.me
 DOMAIN-SUFFIX,etherscan.io
 DOMAIN-SUFFIX,eu-1-id5-sync.com
@@ -364,6 +364,7 @@ DOMAIN-SUFFIX,firebase-settings.crashlytics.com
 DOMAIN-SUFFIX,font.im
 DOMAIN-SUFFIX,fontawesome.com
 DOMAIN-SUFFIX,fortawesome.com
+DOMAIN-SUFFIX,forter.com
 DOMAIN-SUFFIX,fpjs.io
 DOMAIN-SUFFIX,frantech.ca
 DOMAIN-SUFFIX,fratec.net
@@ -548,6 +549,7 @@ DOMAIN-SUFFIX,mlsend2.com
 DOMAIN-SUFFIX,mmapiws.com
 DOMAIN-SUFFIX,mnaspm.com
 DOMAIN-SUFFIX,mobilefuse.com
+DOMAIN-SUFFIX,mokexapp.io
 DOMAIN-SUFFIX,mokexweb.us
 DOMAIN-SUFFIX,mooncloud.top
 DOMAIN-SUFFIX,moratelindo.io
@@ -610,6 +612,7 @@ DOMAIN-SUFFIX,onetrust.io
 DOMAIN-SUFFIX,onfinality.io
 DOMAIN-SUFFIX,online-metrix.net
 DOMAIN-SUFFIX,ooklaserver.net
+DOMAIN-SUFFIX,open-ai-chat-omega.vercel.app
 DOMAIN-SUFFIX,openstatus.dev
 DOMAIN-SUFFIX,oracle-mail.com
 DOMAIN-SUFFIX,oraclecloud.com
@@ -741,7 +744,6 @@ DOMAIN-SUFFIX,spmailtechno.com
 DOMAIN-SUFFIX,sprig.com
 DOMAIN-SUFFIX,starhub.com
 DOMAIN-SUFFIX,statuspage.io
-DOMAIN-SUFFIX,steamserver.net
 DOMAIN-SUFFIX,steffann.nl
 DOMAIN-SUFFIX,stripe.com
 DOMAIN-SUFFIX,stripe.network
@@ -807,6 +809,7 @@ DOMAIN-SUFFIX,uhsea.com
 DOMAIN-SUFFIX,uia.net
 DOMAIN-SUFFIX,umd.edu
 DOMAIN-SUFFIX,umt.edu.my
+DOMAIN-SUFFIX,underlords.com
 DOMAIN-SUFFIX,unesty.net
 DOMAIN-SUFFIX,unity3d.com
 DOMAIN-SUFFIX,unrealengine.com
@@ -817,6 +820,7 @@ DOMAIN-SUFFIX,uu.net
 DOMAIN-SUFFIX,uwaterloo.ca
 DOMAIN-SUFFIX,v.ps
 DOMAIN-SUFFIX,v2ex.com
+DOMAIN-SUFFIX,valvesoftware.com
 DOMAIN-SUFFIX,verbox.ru
 DOMAIN-SUFFIX,vercel.app
 DOMAIN-SUFFIX,verizon.net
@@ -876,5 +880,4 @@ DOMAIN-SUFFIX,zgovps.com
 DOMAIN-SUFFIX,zi-scripts.com
 DOMAIN-SUFFIX,zoominfo.com
 DOMAIN-SUFFIX,zve.me
-DOMAIN,stability.ai
 IP-CIDR,8.8.8.8/32
