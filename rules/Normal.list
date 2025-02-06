@@ -106,6 +106,7 @@ DOMAIN,spaceship-cdn.com
 DOMAIN,speed.mainonecable.com
 DOMAIN,speedypage.com
 DOMAIN,ssiic.com
+DOMAIN,stun.ideasip.com
 DOMAIN,supply.inmobicdn.net
 DOMAIN,t.me
 DOMAIN,telegra.ph
@@ -378,6 +379,8 @@ DOMAIN-SUFFIX,freerangecloud.com
 DOMAIN-SUFFIX,frontier.com
 DOMAIN-SUFFIX,frostsky.com
 DOMAIN-SUFFIX,fynn-int.de
+DOMAIN-SUFFIX,g123-queensblade.com
+DOMAIN-SUFFIX,g123.jp
 DOMAIN-SUFFIX,gaggle.fun
 DOMAIN-SUFFIX,gamepedia.com
 DOMAIN-SUFFIX,gandi.net
@@ -396,6 +399,7 @@ DOMAIN-SUFFIX,giphy.com
 DOMAIN-SUFFIX,gitbook.com
 DOMAIN-SUFFIX,github.com
 DOMAIN-SUFFIX,githubassets.com
+DOMAIN-SUFFIX,githubcopilot.com
 DOMAIN-SUFFIX,githubusercontent.com
 DOMAIN-SUFFIX,globalxtreme.net
 DOMAIN-SUFFIX,gmail.com
@@ -496,6 +500,7 @@ DOMAIN-SUFFIX,launchdarkly.com
 DOMAIN-SUFFIX,lencr.org
 DOMAIN-SUFFIX,level66.network
 DOMAIN-SUFFIX,liadm.com
+DOMAIN-SUFFIX,liftoff.io
 DOMAIN-SUFFIX,lingyushuju.top
 DOMAIN-SUFFIX,linux.do
 DOMAIN-SUFFIX,liquid-themes.com
@@ -715,6 +720,7 @@ DOMAIN-SUFFIX,segment.io
 DOMAIN-SUFFIX,segmentapis.com
 DOMAIN-SUFFIX,sendgrid.net
 DOMAIN-SUFFIX,sendibt2.com
+DOMAIN-SUFFIX,sentry-cdn.com
 DOMAIN-SUFFIX,sentry.io
 DOMAIN-SUFFIX,serv00.com
 DOMAIN-SUFFIX,servenobid.com
@@ -774,6 +780,7 @@ DOMAIN-SUFFIX,telstraglobal.net
 DOMAIN-SUFFIX,tenderly.co
 DOMAIN-SUFFIX,tenor.com
 DOMAIN-SUFFIX,termius.com
+DOMAIN-SUFFIX,termly.io
 DOMAIN-SUFFIX,test-ipv6.cl
 DOMAIN-SUFFIX,test-ipv6.com
 DOMAIN-SUFFIX,test-ipv6.cz
@@ -874,6 +881,7 @@ DOMAIN-SUFFIX,yandexmetrica.com
 DOMAIN-SUFFIX,yarn.co
 DOMAIN-SUFFIX,yieldmo.com
 DOMAIN-SUFFIX,yimg.com
+DOMAIN-SUFFIX,yimg.jp
 DOMAIN-SUFFIX,yinuo02.top
 DOMAIN-SUFFIX,youtube.com
 DOMAIN-SUFFIX,yserver.ink

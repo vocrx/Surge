@@ -395,6 +395,7 @@ DOMAIN-SUFFIX,openinstall.com
 DOMAIN-SUFFIX,openinstall.io
 DOMAIN-SUFFIX,openspeech.cn
 DOMAIN-SUFFIX,osslan.com
+DOMAIN-SUFFIX,ourdvsss.com
 DOMAIN-SUFFIX,pangaea-data.com.cn
 DOMAIN-SUFFIX,paopaohd.com
 DOMAIN-SUFFIX,pbcdci.cn
