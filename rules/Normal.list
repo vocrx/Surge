@@ -84,6 +84,7 @@ DOMAIN,lvlv.lv
 DOMAIN,maxcdn.icons8.com
 DOMAIN,mcusercontent.com
 DOMAIN,miaomiao.moe
+DOMAIN,mihomo.party
 DOMAIN,monitorcontrol.app
 DOMAIN,my-analytics.eu
 DOMAIN,my.halocloud.net
@@ -92,6 +93,7 @@ DOMAIN,nekoyun.com
 DOMAIN,nezha.wiki
 DOMAIN,onetag-sys.com
 DOMAIN,plausible.io
+DOMAIN,portal.omao.ee
 DOMAIN,prreqcroab.icu
 DOMAIN,res.cloudinary.com
 DOMAIN,rsms.me
@@ -176,6 +178,7 @@ DOMAIN-SUFFIX,agkn.com
 DOMAIN-SUFFIX,ailanglang.sbs
 DOMAIN-SUFFIX,airdropmaverick.xyz
 DOMAIN-SUFFIX,ais-idc.net
+DOMAIN-SUFFIX,ais.th
 DOMAIN-SUFFIX,akamaihd.net
 DOMAIN-SUFFIX,akamaized.net
 DOMAIN-SUFFIX,akile.io
@@ -190,6 +193,7 @@ DOMAIN-SUFFIX,ampaeservices.com
 DOMAIN-SUFFIX,amplitude.com
 DOMAIN-SUFFIX,amplitudeexperiment.com
 DOMAIN-SUFFIX,antradar.com
+DOMAIN-SUFFIX,aoaostar.com
 DOMAIN-SUFFIX,app-analytics-services.com
 DOMAIN-SUFFIX,app-us1.com
 DOMAIN-SUFFIX,appcenter.ms
@@ -297,6 +301,7 @@ DOMAIN-SUFFIX,ctcsci.com
 DOMAIN-SUFFIX,ctfassets.net
 DOMAIN-SUFFIX,customeriomail.com
 DOMAIN-SUFFIX,cwcs.co.uk
+DOMAIN-SUFFIX,cxense.com
 DOMAIN-SUFFIX,d1ss.eu.org
 DOMAIN-SUFFIX,da-files.com
 DOMAIN-SUFFIX,dacor.de
@@ -327,6 +332,7 @@ DOMAIN-SUFFIX,dwin1.com
 DOMAIN-SUFFIX,dynamicyield.com
 DOMAIN-SUFFIX,dyneti.com
 DOMAIN-SUFFIX,egernapp.com
+DOMAIN-SUFFIX,ekiga.net
 DOMAIN-SUFFIX,elle.com.hk
 DOMAIN-SUFFIX,eloqua.com
 DOMAIN-SUFFIX,emby.wtf
@@ -459,12 +465,11 @@ DOMAIN-SUFFIX,ip-api.com
 DOMAIN-SUFFIX,ip-projects.de
 DOMAIN-SUFFIX,ip.sb
 DOMAIN-SUFFIX,ipify.org
+DOMAIN-SUFFIX,ipinfo.io
 DOMAIN-SUFFIX,ipv6.br
 DOMAIN-SUFFIX,isgo.win
 DOMAIN-SUFFIX,iswiftai.com
 DOMAIN-SUFFIX,itunes.apple.com
-DOMAIN-SUFFIX,iturrit.com
-DOMAIN-SUFFIX,iturrit.com
 DOMAIN-SUFFIX,iu13.net
 DOMAIN-SUFFIX,iubenda.com
 DOMAIN-SUFFIX,ixvvv.com
@@ -842,6 +847,7 @@ DOMAIN-SUFFIX,walletconnect.org
 DOMAIN-SUFFIX,walletteam.org
 DOMAIN-SUFFIX,wallhaven.cc
 DOMAIN-SUFFIX,webantenna.info
+DOMAIN-SUFFIX,who.is
 DOMAIN-SUFFIX,who.sb
 DOMAIN-SUFFIX,wiki.gg
 DOMAIN-SUFFIX,wikia-services.com
