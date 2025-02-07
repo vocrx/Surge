@@ -235,6 +235,7 @@ DOMAIN-SUFFIX,bitwarden.com
 DOMAIN-SUFFIX,bkrtx.com
 DOMAIN-SUFFIX,blastapi.io
 DOMAIN-SUFFIX,bluekai.com
+DOMAIN-SUFFIX,bmp.ovh
 DOMAIN-SUFFIX,bnbstatic.com
 DOMAIN-SUFFIX,bntrace.com
 DOMAIN-SUFFIX,boxjs.app
@@ -389,6 +390,7 @@ DOMAIN-SUFFIX,gbqofs.io
 DOMAIN-SUFFIX,gdbzkz.com
 DOMAIN-SUFFIX,gegebu.ru
 DOMAIN-SUFFIX,getclicky.com
+DOMAIN-SUFFIX,getloli.com
 DOMAIN-SUFFIX,getonward.com
 DOMAIN-SUFFIX,ggpht.com
 DOMAIN-SUFFIX,giantcomm.net
@@ -439,12 +441,14 @@ DOMAIN-SUFFIX,hubspot.com
 DOMAIN-SUFFIX,hyruleboss.com
 DOMAIN-SUFFIX,hytron.io
 DOMAIN-SUFFIX,i3d.net
+DOMAIN-SUFFIX,i8.pw
 DOMAIN-SUFFIX,ibb.co
 DOMAIN-SUFFIX,ibruce.info
 DOMAIN-SUFFIX,iconify.design
 DOMAIN-SUFFIX,icscoe.jp
 DOMAIN-SUFFIX,ideatek.com
 DOMAIN-SUFFIX,imgbox.com
+DOMAIN-SUFFIX,imgdb.de
 DOMAIN-SUFFIX,imgdd.com
 DOMAIN-SUFFIX,imgflip.com
 DOMAIN-SUFFIX,imgimg.cc
@@ -754,6 +758,8 @@ DOMAIN-SUFFIX,split.io
 DOMAIN-SUFFIX,spmailtechno.com
 DOMAIN-SUFFIX,sprig.com
 DOMAIN-SUFFIX,starhub.com
+DOMAIN-SUFFIX,stash-activation.com
+DOMAIN-SUFFIX,stash.wiki
 DOMAIN-SUFFIX,statuspage.io
 DOMAIN-SUFFIX,steffann.nl
 DOMAIN-SUFFIX,stripe.com
@@ -869,6 +875,7 @@ DOMAIN-SUFFIX,wootric.com
 DOMAIN-SUFFIX,wp.com
 DOMAIN-SUFFIX,x.com
 DOMAIN-SUFFIX,xfernet.net
+DOMAIN-SUFFIX,xn--ji8h.eu.org
 DOMAIN-SUFFIX,xsus.net.co
 DOMAIN-SUFFIX,xtom.com
 DOMAIN-SUFFIX,xuanyge.info
