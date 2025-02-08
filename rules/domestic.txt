@@ -192,6 +192,7 @@ DOMAIN-SUFFIX,cup.com.cn
 DOMAIN-SUFFIX,dadicinema.com
 DOMAIN-SUFFIX,dairyqueen.com.cn
 DOMAIN-SUFFIX,daishuale.com
+DOMAIN-SUFFIX,deepseek.com
 DOMAIN-SUFFIX,dian.so
 DOMAIN-SUFFIX,dianping.com
 DOMAIN-SUFFIX,dianzhangzhipin.com
@@ -449,6 +450,7 @@ DOMAIN-SUFFIX,shihuocdn.cn
 DOMAIN-SUFFIX,shouqianba.com
 DOMAIN-SUFFIX,shujupie.com
 DOMAIN-SUFFIX,shuzilm.cn
+DOMAIN-SUFFIX,siliconflow.cn
 DOMAIN-SUFFIX,sinaimg.cn
 DOMAIN-SUFFIX,sjxydc.com
 DOMAIN-SUFFIX,smtcdns.com
