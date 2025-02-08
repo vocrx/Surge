@@ -31,7 +31,7 @@ jobs:
           curl -o rules/AI.list -s https://raw.githubusercontent.com/vocrx/Surge/main/rules/AI.list
           curl -o rules/PayPal.list -s https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/PayPal/PayPal.list
 
-          curl -o rules/ChinaDomain.list -s https://raw.githubusercontent.com/vocrx/Surge/main/rules/domestic.txt
+          curl -o rules/ChinaDomain.list -s https://raw.githubusercontent.com/vocrx/Surge/main/rules/Domestic.list
           curl -o rules/ChinaIPV4.conf -s https://ruleset.skk.moe/List/ip/china_ip.conf
           curl -o rules/ChinaIPV6.conf -s https://ruleset.skk.moe/List/ip/china_ip_ipv6.conf
       - name: Merge Streaming Rules
