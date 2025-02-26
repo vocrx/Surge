@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.11.3"
+VERSION="1.11.4"
 BETA_VERSION="1.12.0-alpha.8"
 
 if [ "$EUID" -ne 0 ]; then
