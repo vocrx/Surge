@@ -1,7 +1,7 @@
 #!/bin/bash
 
 VERSION="1.11.4"
-BETA_VERSION="1.12.0-alpha.8"
+BETA_VERSION="1.12.0-alpha.13"
 
 if [ "$EUID" -ne 0 ]; then
     echo "Error: Please run with root privileges"
