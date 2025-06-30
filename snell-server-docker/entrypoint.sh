@@ -32,7 +32,7 @@ EOF
 }
 
 download_snell() {
-    VERSION=${VERSION:-v4.1.1}
+    VERSION=${VERSION:-v5.0.0b1}
     if [ "${VERSION}" == "v3.0.1" ]; then
         case "${TARGETPLATFORM}" in
         "linux/amd64") SNELL_URL="https://github.com/vocrx/Surge/raw/refs/heads/main/snell-server-docker/source/snell-v3.0.1/snell-server-v3.0.1-linux-amd64.zip" ;;
