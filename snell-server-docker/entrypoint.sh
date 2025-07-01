@@ -33,6 +33,14 @@ EOF
 
 download_snell() {
     VERSION=${VERSION:-v5.0.0b1}
+
+    if [ -f "/snell/snell-server" ] && [ -f "/snell/ver.txt" ]; then
+        CURRENT_VERSION=$(cat /snell/ver.txt)
+        if [ "$CURRENT_VERSION" == "$VERSION" ]; then
+            return
+        fi
+    fi
+
     if [ "${VERSION}" == "v3.0.1" ]; then
         case "${TARGETPLATFORM}" in
         "linux/amd64") SNELL_URL="https://github.com/vocrx/Surge/raw/refs/heads/main/snell-server-docker/source/snell-v3.0.1/snell-server-v3.0.1-linux-amd64.zip" ;;
@@ -54,7 +62,8 @@ download_snell() {
     wget -q -O snell.zip ${SNELL_URL} &&
         unzip -qo snell.zip -d /snell &&
         rm snell.zip &&
-        chmod +x /snell/snell-server
+        chmod +x /snell/snell-server &&
+        echo "$VERSION" > /snell/ver.txt
 }
 
 download_snell
