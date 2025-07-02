@@ -16,4 +16,4 @@ RUN apt-get update && \
 
 WORKDIR /snell
 
-ENTRYPOINT ["/usr/bin/tini", "--", "/snell/entrypoint.sh"]
+ENTRYPOINT ["/usr/bin/tini", "--", "/entrypoint.sh"]
