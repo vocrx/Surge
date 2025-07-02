@@ -1,32 +1,49 @@
-# 部署指南
+# Snell Server Docker
 
-> 使用前请确保你的 docker 已经正确运行，如果没有安装可使用这个两个命令安装：
->
-> ```shell
-> apt update && apt upgrade -y && apt install curl -y
-> curl -fsSL 'get.docker.com' | bash
-> ```
->
-> 执行`docker -v`输出版本号就是安装好了。
+快速部署 Snell Server 的 Docker 镜像，支持多架构。
 
-### 1. 支持的 environment
+## 环境准备
 
-- PORT=自定义使用的端口，仅`host`模式下生效，不写则随机。
-- PSK=节点密码，不写则随机。
-- IPV6=true/false，不写默认为 false。
-- DNS=8.8.8.8,1.1.1.1，不写为系统默认
-- VERSION=v4.1.1，自定义二进制文件版本，不写则默认最新版
-- OBFS=http,默认为空,写此条必须配置 HOST
-- HOST=icloud.com,默认为空
-- NIC=eth0,指定网卡，仅Snell-V5支持
-
-### 2. 使用 docker 方式
+确保系统已安装 Docker。如果未安装，可以使用以下命令进行安装：
 
 ```shell
-docker run -d --name snell-server --network host -e PORT=1111 -e PSK=your_password -e IVP6=false/true vocrx/snell-server:latest
+apt update && apt upgrade -y && apt install curl -y
+curl -fsSL 'get.docker.com' | bash
 ```
 
-### 3. 使用 docker compose 方式
+执行 `docker -v` 确认安装成功。
+
+## 支持的环境变量
+
+| 环境变量 | 说明 | 默认值 | 示例 |
+|---------|------|--------|------|
+| PORT    | 服务端口号 | 随机 (1024-65535) | `PORT=1111` |
+| PSK     | 节点密码 | 随机生成 | `PSK=password123` |
+| IPV6    | 是否启用 IPv6 | false | `IPV6=true` |
+| DNS     | 自定义 DNS | 系统默认 | `DNS=8.8.8.8,1.1.1.1` |
+| VERSION | Snell 版本号 | v5.0.0b1 | `VERSION=v4.1.1` |
+| OBFS    | 混淆方式 | 无 | `OBFS=http` |
+| HOST    | 混淆域名 | 无 | `HOST=www.apple.com` |
+| NIC     | 指定网卡 (仅 V5) | 无 | `NIC=eth0` |
+
+> 注意：启用 OBFS 时必须同时配置 HOST
+
+## 部署方式
+
+### Docker 命令行
+
+```shell
+docker run -d \
+  --name snell-server \
+  --network host \
+  --restart always \
+  -e PORT=1111 \
+  -e PSK=your_password \
+  -e IPV6=false \
+  vocrx/snell-server:latest
+```
+
+### Docker Compose
 
 ```yaml
 services:
@@ -38,11 +55,26 @@ services:
     environment:
       - PORT=1111
       - PSK=your_password
-      - IPV6=false/true
+      - IPV6=false
 ```
 
-### 4. 其他
+## 使用说明
 
-- 使用随机密码或者端口可以使用`docker logs snell-server`查看配置信息。
-- Docker 非 HOST 模式下使用 IPV6 需要额外配置，详情 GPT
-- 想好再写，反正也没人看。
+1. 使用随机配置时，可通过以下命令查看实际配置：
+   ```shell
+   docker logs snell-server
+   ```
+
+2. 非 HOST 网络模式下使用 IPv6 需要额外配置 Docker daemon 设置
+
+3. 支持的架构：
+   - linux/amd64
+   - linux/arm64
+   - linux/386
+   - linux/arm/v7
+
+## 注意事项
+
+- 推荐使用 HOST 网络模式以获得最佳性能
+- 容器首次启动时会下载对应版本的二进制文件
+- 如遇端口冲突，请修改 PORT 环境变量
