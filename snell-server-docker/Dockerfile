@@ -10,6 +10,7 @@ RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y wget unzip curl tini && \
     chmod +x /entrypoint.sh && \
+    mkdir /snell && \
     chmod -R 777 /snell && \
     rm -rf /var/lib/apt/lists/*
 
