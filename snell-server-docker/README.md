@@ -53,14 +53,15 @@ services:
     restart: always
     network_mode: host
     environment:
-      - PORT=1111
-      - PSK=your_password
-      - IPV6=false
+      PORT: 1111
+      PSK: your_password
+      IPV6: false
 ```
 
 ## 使用说明
 
 1. 使用随机配置时，可通过以下命令查看实际配置：
+
    ```shell
    docker logs snell-server
    ```
