@@ -32,7 +32,7 @@ EOF
 }
 
 download_snell() {
-    VERSION=${VERSION:-v5.0.0b1}
+    VERSION=${VERSION:-v5.0.0b2}
 
     if [ -f "/snell/snell-server" ] && [ -f "/snell/ver.txt" ]; then
         CURRENT_VERSION=$(cat /snell/ver.txt)
