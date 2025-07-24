@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="4.1.1"
+VERSION="5.0.0"
 
 if [ "$EUID" -ne 0 ]; then
     echo "Error: Please run with root privileges"
