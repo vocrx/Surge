@@ -1,0 +1,6 @@
+#!name=岭南通去开屏
+#!desc=去除岭南通开屏广告
+[Rule]
+URL-REGEX,^https:\/\/alipd\.lingnanpass\.com\/\/APPMall\/advertisement\/advertisement!adConfig\.action$,REJECT
+[MITM]
+hostname = %APPEND% alipd.lingnanpass.com
