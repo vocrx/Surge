@@ -1,6 +1,6 @@
 # Shadowsocks Rust 安装脚本
 
-[`ss-rust.sh`](ss-rust.sh) 用于在 Linux 上安装、更新和卸载 Shadowsocks Rust，当前目标版本为 **1.25.0**。安装完成后输出一行 Surge 节点配置。
+[`ss-rust.sh`](ss-rust.sh) 用于在 Linux 上安装、更新和卸载 Shadowsocks Rust。每次安装、重装或更新时自动获取 GitHub 的 **latest 正式版**，无需手动维护版本号。安装完成后输出一行 Surge 节点配置。
 
 ## 环境要求
 
@@ -8,6 +8,7 @@
 - 架构：`x86_64` 或 `aarch64`。
 - 服务管理：正在运行的 systemd 或 OpenRC。
 - 缺少依赖时，支持通过 `apt-get`、`dnf`、`yum` 或 `apk` 安装。
+- 使用 `curl` 查询 GitHub API、`jq` 解析版本及下载地址；缺少时自动安装。
 - Alpine 使用 musl 发行包，其他系统使用 GNU 发行包。下载后会执行新版的 `--version`，提前发现二进制与运行环境不兼容的问题。
 
 Alpine 如果尚未安装 Bash，请先以 root 执行 `apk add bash`。其他系统也需要预先具备 Bash，不能使用 `sh ss-rust.sh` 替代。
@@ -38,7 +39,7 @@ bash Scripts/ss-rust.sh --help
 | `-p` | TCP/UDP 监听端口，范围为 1–65535；省略时从 1000–65535 中随机选取空闲端口 |
 | `-psk` | 16 字节随机密钥的标准 Base64 编码，包含末尾 `==` |
 | `-passwd` | `-psk` 的兼容别名，仍须传入有效密钥 |
-| `update` | 更新到脚本中 `VERSION` 指定的版本，不接受安装参数 |
+| `update` | 下载并更新到 GitHub latest 正式版，保留配置，不接受安装参数 |
 | `uninstall` | 删除程序、配置和对应服务定义，不接受安装参数 |
 
 固定使用 `2022-blake3-aes-128-gcm`，同时启用 TCP 和 UDP。密钥不能是普通密码，可用以下命令生成：
@@ -55,11 +56,13 @@ openssl rand -base64 16
 bash Scripts/ss-rust.sh update
 ```
 
-更新使用脚本开头的 `VERSION`，不会自动追踪最新版本。修改目标版本后重新执行 `update` 即可；端口、密钥、配置内容和已有服务定义均保留，配置文件权限会收紧为 `600`。
+每次执行 `update` 都会查询 GitHub latest 正式版，排除草稿和预发布版本；不提供指定版本的参数，也不会在查询失败时改用某个固定版本。端口、密钥、配置内容和已有服务定义均保留，配置文件权限会收紧为 `600`。脚本不会在后台定时更新，需主动执行命令；即使已经安装相同版本，也会重新下载并替换程序。
+
+版本信息通过 [GitHub latest release API](https://api.github.com/repos/shadowsocks/shadowsocks-rust/releases/latest) 获取。查询失败、返回异常、缺少当前平台的压缩包或校验文件时直接退出，保留旧安装。
 
 安装和更新共用以下下载流程：
 
-1. 在 `/opt` 下创建权限受限的临时目录，下载对应发行包及官方 `.sha256` 文件。
+1. 在 `/opt` 下创建权限受限的临时目录，查询 latest，根据架构及 GNU/musl 匹配发行包和官方 `.sha256` 文件。本次下载固定使用同一次查询返回的版本及附件地址，避免 latest 在下载期间变化造成版本不一致。
 2. 校验 SHA-256，仅解压 `ssserver`，检查可执行性及版本。
 3. 验证通过后才安装或替换程序；更新前备份旧程序，并通过同一文件系统中的重命名替换二进制。重装会先备份整个旧安装目录、服务定义和服务状态，再停止旧服务、检查端口并替换安装。
 4. 重启服务，连续检查三次运行状态。检查通过才报告成功。

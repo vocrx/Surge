@@ -2,7 +2,7 @@
 
 set -uo pipefail
 
-VERSION="1.25.0"
+RELEASE_VERSION=""
 INSTALL_DIR="/opt/ss-rust"
 SYSTEMD_UNIT="/etc/systemd/system/ss-rust.service"
 OPENRC_SCRIPT="/etc/init.d/ss-rust"
@@ -35,6 +35,7 @@ Usage: $0 [install] [-p port] [-psk key]
        $0 -h|--help
 
 Install defaults to a random free port and a random 16-byte Base64 PSK.
+Install and update always download the latest stable GitHub release.
 -passwd is an alias for -psk. Options are only valid for installation.
 Install replaces an existing installation and generates a new configuration.
 Use update to replace only the binary and preserve the configuration.
@@ -264,7 +265,7 @@ check_installation() {
     fi
 }
 
-select_package() {
+detect_platform() {
     local arch libc="gnu"
     arch=$(uname -m) || fail "Cannot detect architecture"
     case "$arch" in
@@ -274,12 +275,38 @@ select_package() {
     if [ -f /etc/alpine-release ]; then
         libc="musl"
     fi
-    PACKAGE="shadowsocks-v$VERSION.$arch-unknown-linux-$libc.tar.xz"
+    PLATFORM="$arch-unknown-linux-$libc"
+}
+
+resolve_latest_release() {
+    local tag expected_url
+    echo "Querying the latest Shadowsocks Rust release..."
+    curl -fsSL --connect-timeout 15 --max-time 60 --retry 2 \
+        -H 'Accept: application/vnd.github+json' \
+        -o "$WORK_DIR/release.json" \
+        'https://api.github.com/repos/shadowsocks/shadowsocks-rust/releases/latest' \
+        || fail "Cannot query the latest release (check network access or GitHub API rate limits)"
+    tag=$(jq -er 'select(.draft == false and .prerelease == false) | .tag_name | select(type == "string")' \
+        "$WORK_DIR/release.json") || fail "Invalid latest release response"
+    [[ "$tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]] || fail "Unexpected release tag: $tag"
+    RELEASE_VERSION="${tag#v}"
+    PACKAGE="shadowsocks-$tag.$PLATFORM.tar.xz"
+    PACKAGE_URL=$(jq -er --arg name "$PACKAGE" \
+        '[.assets[] | select(.name == $name) | .browser_download_url] | select(length == 1) | .[0] | select(type == "string")' \
+        "$WORK_DIR/release.json") || fail "Latest release is missing a unique package for $PLATFORM"
+    CHECKSUM_URL=$(jq -er --arg name "$PACKAGE.sha256" \
+        '[.assets[] | select(.name == $name) | .browser_download_url] | select(length == 1) | .[0] | select(type == "string")' \
+        "$WORK_DIR/release.json") || fail "Latest release is missing a unique checksum for $PLATFORM"
+    # Pin both assets to this response's tag, even if latest changes during download.
+    expected_url="https://github.com/shadowsocks/shadowsocks-rust/releases/download/$tag/$PACKAGE"
+    [ "$PACKAGE_URL" = "$expected_url" ] && [ "$CHECKSUM_URL" = "$expected_url.sha256" ] \
+        || fail "Unexpected release asset URLs"
+    echo "Latest release: $tag ($PLATFORM)"
 }
 
 ensure_dependencies() {
     local cmd missing=0
-    local commands=(curl tar xz sha256sum)
+    local commands=(curl jq tar xz sha256sum)
     if [ "$ACTION" = "install" ]; then
         commands+=(openssl netstat shuf)
     fi
@@ -288,14 +315,14 @@ ensure_dependencies() {
     done
     if [ "$missing" -eq 1 ]; then
         echo "Installing missing dependencies..."
-        local packages=(curl tar xz ca-certificates coreutils)
+        local packages=(curl jq tar xz ca-certificates coreutils)
         if [ "$ACTION" = "install" ]; then
             packages+=(openssl net-tools)
         fi
         if command -v apk >/dev/null 2>&1; then
             apk add --no-cache "${packages[@]}" || fail "Dependency installation failed"
         elif command -v apt-get >/dev/null 2>&1; then
-            packages=(curl tar xz-utils ca-certificates coreutils)
+            packages=(curl jq tar xz-utils ca-certificates coreutils)
             if [ "$ACTION" = "install" ]; then
                 packages+=(openssl net-tools)
             fi
@@ -340,11 +367,10 @@ prepare_config() {
 }
 
 download_server() {
-    local url checksum actual version_output
-    url="https://github.com/shadowsocks/shadowsocks-rust/releases/download/v$VERSION/$PACKAGE"
-    echo "Downloading Shadowsocks Rust $VERSION..."
-    curl -fsSL --connect-timeout 15 --max-time 120 --retry 2 -o "$WORK_DIR/$PACKAGE" "$url" || fail "Package download failed"
-    curl -fsSL --connect-timeout 15 --max-time 120 --retry 2 -o "$WORK_DIR/checksum" "$url.sha256" || fail "Checksum download failed"
+    local checksum actual version_output
+    echo "Downloading Shadowsocks Rust $RELEASE_VERSION..."
+    curl -fsSL --connect-timeout 15 --max-time 120 --retry 2 -o "$WORK_DIR/$PACKAGE" "$PACKAGE_URL" || fail "Package download failed"
+    curl -fsSL --connect-timeout 15 --max-time 120 --retry 2 -o "$WORK_DIR/checksum" "$CHECKSUM_URL" || fail "Checksum download failed"
     read -r checksum _ < "$WORK_DIR/checksum" || fail "Cannot read checksum"
     [[ "$checksum" =~ ^[a-fA-F0-9]{64}$ ]] || fail "Invalid release checksum"
     actual=$(sha256sum "$WORK_DIR/$PACKAGE") || fail "Cannot calculate checksum"
@@ -355,7 +381,7 @@ download_server() {
     [ -f "$WORK_DIR/payload/ssserver" ] && [ ! -L "$WORK_DIR/payload/ssserver" ] || fail "Invalid server binary"
     chmod 755 "$WORK_DIR/payload/ssserver" || fail "Cannot set binary permissions"
     version_output=$("$WORK_DIR/payload/ssserver" --version) || fail "New binary cannot run on this system"
-    [[ "$version_output" = "shadowsocks $VERSION" || "$version_output" = "shadowsocks $VERSION "* ]] || fail "Unexpected server version: $version_output"
+    [[ "$version_output" = "shadowsocks $RELEASE_VERSION" || "$version_output" = "shadowsocks $RELEASE_VERSION "* ]] || fail "Unexpected server version: $version_output"
 }
 
 write_service() {
@@ -457,7 +483,7 @@ update_server() {
         fail "Updated service failed to start"
     fi
     TRANSACTION=""
-    echo "Update to $VERSION completed. Configuration preserved; service is running."
+    echo "Update to $RELEASE_VERSION completed. Configuration preserved; service is running."
 }
 
 uninstall_server() {
@@ -494,11 +520,12 @@ main() {
         uninstall_server
         return
     fi
-    select_package
+    detect_platform
     ensure_dependencies
     if [ "$ACTION" = "install" ]; then prepare_config; fi
     mkdir -p "$(dirname "$INSTALL_DIR")" || fail "Cannot create installation parent directory"
     WORK_DIR=$(mktemp -d "$INSTALL_DIR.work.XXXXXX") || fail "Cannot create staging directory"
+    resolve_latest_release
     download_server
     if [ "$ACTION" = "update" ]; then
         update_server
